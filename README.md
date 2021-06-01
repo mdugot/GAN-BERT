@@ -19,7 +19,8 @@ With only access to 10 labelled questions per classes, it should reach around 85
 
 ## Prediction
 
-Once trained, use the command `python3 predict.py trained.chkpt "Any question to classify"` to classify a custom question :
+Once trained, use the command `python3 predict.py trained.chkpt "Any question to classify"` to classify a custom question.
+Refer the file `labels.txt` for more information on the meaning of a label.
 
 ```
 >>> python3 predict.py trained.chkpt "what is the best way to wash the hands to avoid to be sick"
