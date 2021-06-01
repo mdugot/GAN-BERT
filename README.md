@@ -1,6 +1,7 @@
 # GAN-Bert
 
-Implementation in Pytorch of a GAN-Bert model for fine-tuning a text classifier based on Bert in a semi-supervised way from few labelled samples.
+Implementation in Pytorch of a GAN-Bert model for fine-tuning a text classifier based on Bert in a semi-supervised way from few labelled samples. It follows the method proposed by the paper [GAN-BERT: Generative Adversarial Learning for
+Robust Text Classification with a Bunch of Labeled Examples](https://www.aclweb.org/anthology/2020.acl-main.191.pdf).
 
 
 ## Dataset
@@ -20,7 +21,7 @@ With only access to 10 labelled questions per classes, it should reach around 85
 ## Prediction
 
 Once trained, use the command `python3 predict.py trained.chkpt "Any question to classify"` to classify a custom question.
-Refer the file `labels.txt` for more information on the meaning of a label.
+Refer to the file `labels.txt` for more information on the meaning of a label.
 
 ```
 >>> python3 predict.py trained.chkpt "what is the best way to wash the hands to avoid to be sick"
