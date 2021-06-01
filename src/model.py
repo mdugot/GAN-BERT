@@ -53,7 +53,7 @@ class DiscriminatorLoss(torch.nn.Module):
     def forward(self, probs, labels):
         assert len(probs) // 2 == len(labels)
         split = len(probs) // 2
-        nll_loss = self.nll(torch.log(probs[:split]), labels)
+        nll_loss = self.nll(torch.log(probs[:split][labels != -1]), labels[labels != -1])
         bce_loss = self.bce(probs[:,-1], torch.cat([torch.zeros([split]), torch.ones([split])]).to(device=Config.device))
         return bce_loss + nll_loss
 

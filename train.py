@@ -1,10 +1,5 @@
-import os
-import glob
-import shutil
-
 import numpy as np
 import torch
-from torch.utils.tensorboard import SummaryWriter
 from torch.utils.data import DataLoader
 import numpy as np
 from tqdm import tqdm
@@ -14,20 +9,9 @@ from src.data import QDataset
 from src.model import GanBert, Generator, DiscriminatorLoss, GeneratorLoss
 from src.config import Config
 
-if not os.path.exists(os.path.join(Config.save_path, Config.session)):
-    os.makedirs(os.path.join(Config.save_path, Config.session))
-save_files = glob.glob(os.path.join("**", "*.py"), recursive=True)
-path = os.path.join(Config.save_path, Config.session, Config.code_path)
-os.makedirs(path, exist_ok=True)
-for filepath in save_files:
-    shutil.copy(filepath, path)
-
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 trainset = QDataset("./traininig_dataset.txt", tokenizer)
 valset = QDataset("./validation_dataset.txt", tokenizer, trainset.labels_table)
-assert valset.max_len <= trainset.max_len
-valset.max_len = trainset.max_len
-print(f"number classes : {trainset.nclasses}")
 trainloader = DataLoader(trainset, batch_size=Config.batch_size, shuffle=True, drop_last=True)
 valloader = DataLoader(valset, batch_size=Config.batch_size, shuffle=True, drop_last=True)
 
@@ -48,12 +32,12 @@ for e in range(Config.epoch):
     model.train()
     running_acc = []
     running_adv_acc = []
-    for batch, labels in tqdm(trainloader):
+    for batch, train_labels, labels in tqdm(trainloader):
         gen_optimizer.zero_grad()
         dis_optimizer.zero_grad()
         adv = generator(len(labels))
         probs, features = model(batch, adv)
-        dis_loss = dis_loss_fn(probs, labels)
+        dis_loss = dis_loss_fn(probs, train_labels)
         gen_loss = gen_loss_fn(probs, features)
         dis_loss.backward(retain_graph=True)
         gen_loss.backward()
@@ -71,7 +55,7 @@ for e in range(Config.epoch):
     running_acc = []
     running_adv_acc = []
     with torch.no_grad():
-        for batch, labels in tqdm(valloader):
+        for batch, train_labels, labels in tqdm(valloader):
             adv = generator(len(labels))
             probs, features = model(batch, adv)
             acc = (probs[:len(labels),:-1].argmax(1) == labels).sum().item() / len(labels)
@@ -82,3 +66,6 @@ for e in range(Config.epoch):
             running_adv_acc.append(adv_acc_fn)
     print(f"Validation accuracy = {np.mean(running_acc)}")
     print(f"Validation adversary accuracy = {np.mean(running_adv_acc)}")
+print("Save model")
+torch.save(model.state_dict(), Config.save_to)
+
