@@ -3,7 +3,9 @@
 Implementation in Pytorch of a GAN-Bert model for fine-tuning a text classifier based on Bert in a semi-supervised way from few labelled samples. It follows the method proposed by the paper [GAN-BERT: Generative Adversarial Learning for
 Robust Text Classification with a Bunch of Labeled Examples](https://www.aclweb.org/anthology/2020.acl-main.191.pdf).
 
-## Dataset
+## Requirements
+
+The requirements can be installed with `pip3 install -r requirements.txt`.
 
 ## Dataset
 
