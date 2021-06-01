@@ -6,7 +6,7 @@ Robust Text Classification with a Bunch of Labeled Examples](https://www.aclweb.
 
 ## Dataset
 
-Download the [questions from UIUC's CogComp QC Dataset](https://github.com/amankedia/Question-Classification) to train the model.
+The dataset used is the [questions from UIUC's CogComp QC Dataset](https://github.com/amankedia/Question-Classification).
 It contains around 5000 questions in the training set classed into 50 classes.
 The model will only be allowed by default to use 10 samples per classes as labelled samples.
 The remaining samples will be used in a semi-supervised way againt the adversarial sample of the generator.
