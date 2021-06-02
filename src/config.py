@@ -1,3 +1,4 @@
+import torch
 from datetime import datetime
 
 class Config:
@@ -10,7 +11,7 @@ class Config:
     noise = 100
     generator_hidden_layer = 4096
     discriminator_hidden_layer = 256
-    device = "cpu"
+    device = "cuda" torch.cuda.is_available() else "cpu"
     batch_size = 32
     gen_learning_rate = 0.0001
     dis_learning_rate = 0.00001

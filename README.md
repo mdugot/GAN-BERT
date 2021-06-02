@@ -5,6 +5,7 @@ Robust Text Classification with a Bunch of Labeled Examples](https://www.aclweb.
 
 ## Requirements
 
+This project is using `python3`.
 The requirements can be installed with `pip3 install -r requirements.txt`.
 
 ## Dataset
